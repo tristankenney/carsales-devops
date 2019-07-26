@@ -1,0 +1,11 @@
+service: cron
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  cron:
+    handler: cron.run
+    events:
+      - schedule: rate(3 hours)

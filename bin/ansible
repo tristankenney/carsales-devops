@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+docker run \
+  -v $(pwd):/tmp \
+  amaysim/serverless:1.45.1 \ 
+  @
+
