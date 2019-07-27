@@ -1,0 +1,17 @@
+
+---
+- name: Create RDS instance
+  debugger: on_failed
+  rds:
+    command: create
+    instance_name: "{{ cs_database_role }}"
+    db_engine: MySQL
+    size: '20'
+    region: "{{ cs_aws_region }}"
+    instance_type: db.t3.micro
+    username: "{{ cs_mysql_user }}"
+    password: "{{ cs_mysql_password }}"
+    subnet: "{{ cs_subnet.id }}"
+    vpc_security_groups: "{{ cs_sg_rds.group_id }}"
+    tags:
+      Role: "{{ cs_database_role }}"

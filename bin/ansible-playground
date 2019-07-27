@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 docker run \
-  -it \
   -v $(pwd):/tmp \
-  -w /tmp/ansible \
-  -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
+  -it \
+  --entrypoint=/bin/bash \
   -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-  carsales-devops-test:latest \
-  carsales-devops.yml \
-  -i aws_rds.yml
-
+  carsales-devops-test:latest

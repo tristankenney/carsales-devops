@@ -1,0 +1,16 @@
+---
+- name: Register Secrets for {{ project_dir }}
+  aws_ssm_parameter_store:
+    string_type: SecureString
+    region: "{{ cs_aws_region }}"
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop: "{{ lookup('dict', secrets) }}"
+
+- name: Deploy {{ project_dir }}
+  debugger: on_failed
+  serverless:
+    stage: prod
+    region: "{{ cs_aws_region }}"
+    service_path: "{{ project_dir }}"
+  register: sls

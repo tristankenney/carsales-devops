@@ -1,0 +1,18 @@
+---
+- name: Create VPC
+  ec2_vpc_net:
+    state: present  
+    name: "{{ cs_app_name }}_vpc"
+    cidr_block: "{{ cs_vpc_cidr_start }}/16"
+    region: "{{ cs_aws_region }}"
+
+- name: Lookup VPC details
+  ec2_vpc_net_facts:
+    region: "{{ cs_aws_region }}"
+    filters:
+      "tag:Name":  "{{ cs_app_name }}_vpc"
+  register: vpc_lookup
+
+- name: Capture VPC details
+  set_fact:
+    cs_vpc: "{{ vpc_lookup.vpcs[0] }}"

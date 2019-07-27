@@ -1,0 +1,14 @@
+- name: Create public route table
+  ec2_vpc_route_table:
+    state: present
+    vpc_id: "{{ cs_vpc.id }}"
+    region: "{{ cs_aws_region }}"
+    tags:
+      Name: "{{ cs_app_name }}_public_rt"
+    subnets: 
+      - "{{ cs_subnet.subnet_id }}"
+    routes:
+      - dest: "{{ cs_vpc_cidr_start }}/16"
+        gateway_id: "local"
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ cs_igw.internet_gateway_id }}"

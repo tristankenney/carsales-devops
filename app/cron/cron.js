@@ -1,11 +1,12 @@
 'use strict';
-
+console.log(process.env.MYSQL_HOST);
 const aws = require('aws-sdk');
 const mysql = require('mysql');
 const route53 = new aws.Route53();
 
 module.exports.run = async (event, context) => {
   console.log('Updating records');
+  console.log(process.env.MYSQL_HOST);
   const connection = openDatabaseConnection();
   try {
     await clearExistingRecords(connection);

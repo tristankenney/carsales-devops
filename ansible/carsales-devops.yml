@@ -1,0 +1,26 @@
+---
+- name: Initialise resources
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - vpc
+    - rds
+# - name: Seed MySQL
+#   hosts: tag_Role_route53
+#   connection: local
+#   roles: 
+#     - database
+- name: Deploy serverless functions
+  hosts: tag_Role_route53
+  connection: local
+  roles: 
+    - role: serverless 
+      vars:
+        project_dir: "/tmp/app/cron"
+        secrets: 
+            "route53_mysql_host": "{{ endpoint.address }}"
+            "route53_mysql_username": "{{ cs_mysql_user }}"
+            "route53_mysql_password": "{{ cs_mysql_password }}"
+            "route53_mysql_db_name": "{{ cs_db_name }}"
+        security_group: "{{ cs_sg_cron }}"

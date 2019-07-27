@@ -1,0 +1,41 @@
+---
+- name: Create IGW within VPC
+  ec2_vpc_igw:
+    state: present
+    vpc_id: "{{ cs_vpc.id }}"
+    region: "{{ cs_aws_region }}"
+    tags: 
+      Name: "{{ cs_app_name }}_igw"
+
+- name: Lookup IGW details
+  ec2_vpc_igw_facts:
+    region: "{{ cs_aws_region }}"
+    filters: 
+      "tag:Name" : "{{ cs_app_name }}_igw"
+  register:  ec2_vpc_igw_facts_result
+
+- name: Capture IGW details
+  set_fact:
+    cs_igw: "{{ ec2_vpc_igw_facts_result.internet_gateways[0] }}"
+
+- name: Create public subnet
+  ec2_vpc_subnet:
+    state: present
+    region: "{{ cs_aws_region }}"
+    vpc_id: "{{ cs_vpc.id }}"
+    az: "{{ cs_aws_region }}{{ cs_subnet_conf['az'] }}"
+    cidr: "{{ cs_subnet_conf['cidr'] }}"
+    tags:
+      Name: "{{ cs_app_name }}_subnet_az{{ cs_subnet_conf['az'] }}"
+      Group: "{{ cs_app_name }}_public"
+
+- name: Lookup Subnet
+  ec2_vpc_subnet_facts:
+    region: "{{ cs_aws_region }}"
+    filters: 
+      "tag:Group" : "{{ cs_app_name }}_public"
+  register:  ec2_vpc_subnet_facts
+
+- name: Capture Subnet
+  set_fact:
+    cs_subnet: "{{ ec2_vpc_subnet_facts.subnets[0] }}"
