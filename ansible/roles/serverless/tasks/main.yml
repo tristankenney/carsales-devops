@@ -1,5 +1,5 @@
 ---
-- name: Register Secrets for {{ project_dir }}
+- name: Register Secrets for {{ service_name }}
   aws_ssm_parameter_store:
     string_type: SecureString
     region: "{{ cs_aws_region }}"
@@ -7,10 +7,18 @@
     value: "{{ item.value }}"
   loop: "{{ lookup('dict', secrets) }}"
 
-- name: Deploy {{ project_dir }}
-  debugger: on_failed
+- name: Deploy {{ service_name }}
   serverless:
     stage: prod
     region: "{{ cs_aws_region }}"
-    service_path: "{{ project_dir }}"
-  register: sls
+    service_path: "/tmp/app/{{ service_name }}"
+
+# - name: Update Lambda
+#   debugger: on_failed
+#   lambda:
+#     name: "{{ service_name }}-prod-handler"
+#     vpc_security_group_ids: "{{ security_group }}"
+#     vpc_subnet_ids: "{{ subnet.subnet_id }}"
+#     role: "{{ role }}"
+
+

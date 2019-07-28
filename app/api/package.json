@@ -1,0 +1,17 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cron.js",
+  "dependencies": {
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

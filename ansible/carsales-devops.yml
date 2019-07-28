@@ -17,10 +17,23 @@
   roles: 
     - role: serverless 
       vars:
-        project_dir: "/tmp/app/cron"
+        service_name: cron
         secrets: 
             "route53_mysql_host": "{{ endpoint.address }}"
             "route53_mysql_username": "{{ cs_mysql_user }}"
             "route53_mysql_password": "{{ cs_mysql_password }}"
             "route53_mysql_db_name": "{{ cs_db_name }}"
         security_group: "{{ cs_sg_cron }}"
+        subnet: "{{ cs_subnet }}"
+        role: "{{ cs_app_name}}_cron_iam_role"
+    - role: serverless 
+      vars:
+        service_name: api
+        secrets: 
+            "route53_mysql_host": "{{ endpoint.address }}"
+            "route53_mysql_username": "{{ cs_mysql_user }}"
+            "route53_mysql_password": "{{ cs_mysql_password }}"
+            "route53_mysql_db_name": "{{ cs_db_name }}"
+        security_group: "{{ cs_sg_api }}"
+        subnet: "{{ cs_subnet }}"
+        role: "{{ cs_app_name}}_api_iam_role"
