@@ -1,5 +1,5 @@
 ---
-cs_aws_region: us-east-1
+cs_aws_region: ap-southeast-2
 cs_mysql_user: database_user
 cs_mysql_password: "{{ lookup('env', 'MYSQL_PASSWORD') }}"
 cs_db_name: route53
@@ -7,7 +7,10 @@ cs_database_role: route53
 cs_app_name: cs_devops_test
 cs_vpc_cidr: 10.10.0.0/16
 cs_vpc_cidr_start: 10.10.0.0
-cs_url: carsales.kenney.co
+cs_cf_zone: kenney.co
+cs_cf_subdomain: carsales
+cs_cloudflare_email: "{{ lookup('env', 'CLOUDFLARE_EMAIL') }}"
+cs_cloudflare_token: "{{ lookup('env', 'CLOUDFLARE_TOKEN') }}"
 cs_subnet_conf:
   az: a
   cidr: 10.10.0.0/24

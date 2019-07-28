@@ -6,15 +6,11 @@
   roles:
     - vpc
     - rds
-# - name: Seed MySQL
-#   hosts: tag_Role_route53
-#   connection: local
-#   roles: 
-#     - database
 - name: Deploy serverless functions
   hosts: tag_Role_route53
   connection: local
   roles: 
+    - role: database
     - role: s3website
     - role: serverless 
       vars:

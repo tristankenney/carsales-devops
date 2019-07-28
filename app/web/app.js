@@ -1,7 +1,9 @@
 'use strict';
 
+const endpoint = 'https://yuddsc8qj8.execute-api.us-east-1.amazonaws.com';
+
 async function renderRoutes() {
-    const response = await fetch('https://o2gl458pj2.execute-api.us-east-1.amazonaws.com/prod/route');
+    const response = await fetch(endpoint + '/prod/route');
     const json = await response.json()
     const body = document.getElementById('routes');
     json.records.forEach((record) => {

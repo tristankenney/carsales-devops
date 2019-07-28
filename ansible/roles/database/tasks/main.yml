@@ -1,9 +1,17 @@
 ---
 - name: Create database
-  debugger: on_failed
   mysql_db:
     name: "{{ cs_db_name }}"
     login_user: "{{ cs_mysql_user }}"
     login_password: "{{ cs_mysql_password }}"
     login_host: "{{ endpoint.address }}"
     state: present
+
+- name: Restore database
+  mysql_db:
+    name: "{{ cs_db_name }}"
+    login_user: "{{ cs_mysql_user }}"
+    login_password: "{{ cs_mysql_password }}"
+    login_host: "{{ endpoint.address }}"
+    state: import
+    target: /tmp/app/cron/create.sql

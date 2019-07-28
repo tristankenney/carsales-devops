@@ -6,6 +6,8 @@ docker run \
   -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
   -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+  -e CLOUDFLARE_EMAIL=$CLOUDFLARE_EMAIL \
+  -e CLOUDFLARE_TOKEN=$CLOUDFLARE_TOKEN \
   carsales-devops-test:latest \
   carsales-devops.yml \
   -i aws_rds.yml

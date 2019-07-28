@@ -12,32 +12,6 @@
         to_port: 3306
         cidr_ip: 0.0.0.0/0
         
-- name: Create API security group
-  ec2_group:
-    state: present
-    name: "{{ cs_app_name }}_sg_api"
-    description: API security group
-    vpc_id: "{{ cs_vpc.id }}"
-    region: "{{ cs_aws_region }}"
-    rules:
-      - proto: tcp
-        from_port: 80
-        to_port: 80
-        cidr_ip: 0.0.0.0/0
-
-- name: Create Cron security group
-  ec2_group:
-    state: present
-    name: "{{ cs_app_name }}_sg_cron"
-    description: API security group
-    vpc_id: "{{ cs_vpc.id }}"
-    region: "{{ cs_aws_region }}"
-    rules:
-      - proto: tcp
-        from_port: 3306
-        to_port: 3306
-        cidr_ip: 0.0.0.0/0
-
 - name: Lookup Security Group – RDS
   ec2_group_facts:
     region: "{{ cs_aws_region }}"
@@ -45,23 +19,6 @@
       group_name: "{{ cs_app_name }}_sg_rds"
   register:  ec2_group_facts_rds
 
-- name: Lookup Security Group – Web
-  ec2_group_facts:
-    region: "{{ cs_aws_region }}"
-    filters: 
-      group_name: "{{ cs_app_name }}_sg_api"
-  register:  ec2_group_facts_api
-
-- name: Lookup Security Group – Cron
-  ec2_group_facts:
-    region: "{{ cs_aws_region }}"
-    filters: 
-      group_name: "{{ cs_app_name }}_sg_cron"
-  register:  ec2_group_facts_cron
-
 - name: Capture Security Groups
-  debugger: on_failed
   set_fact:
     cs_sg_rds: "{{ ec2_group_facts_rds.security_groups[0] }}"
-    cs_sg_api: "{{ ec2_group_facts_api.security_groups[0] }}"
-    cs_sg_cron: "{{ ec2_group_facts_cron.security_groups[0] }}"

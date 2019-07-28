@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
+cd $(pwd)/bin
 docker build -t carsales-devops-test .

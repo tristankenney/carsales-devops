@@ -1,7 +1,6 @@
 
 ---
 - name: Create RDS instance
-  debugger: on_failed
   rds:
     command: create
     instance_name: "{{ cs_database_role }}"

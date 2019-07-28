@@ -13,12 +13,3 @@
     region: "{{ cs_aws_region }}"
     service_path: "/tmp/app/{{ service_name }}"
 
-# - name: Update Lambda
-#   debugger: on_failed
-#   lambda:
-#     name: "{{ service_name }}-prod-handler"
-#     vpc_security_group_ids: "{{ security_group }}"
-#     vpc_subnet_ids: "{{ subnet.subnet_id }}"
-#     role: "{{ role }}"
-
-

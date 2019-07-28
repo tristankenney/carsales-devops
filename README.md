@@ -1,5 +1,22 @@
 # carsales-devops
 
+## Pre-reqs
+1. Install Docker
+2. Generate Docker image `bin/ansible-build`
+
+
+## Running
+```
+AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> \
+AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY> \
+CLOUDFLARE_TOKEN=<CLOUDFLARE_TOKEN> \
+CLOUDFLARE_EMAIL=<CLOUDFLARE_EMAIL> \
+MYSQL_PASSWORD=<MYSQL_PASSWORD> \
+bin/ansible
+```
+
+Can be viewed at `https://carsales.kenney.co`
+
 ## Task
 * create a simple application (it can be lambda based or other) that will query all the records in Route53, save the info in a simple database and display the results on a very simple front-end.
 * Chose any language that suits you
@@ -58,6 +75,14 @@ Limited flexibility in terms of deployment (can only serve static files), unable
 * Create & configure security groups
 * Deploy web payload to S3 bucket
 
-## Concerns
-IAM Role access
-Secrets management (AWS keys)
+## Concerns / implementation notes
+### Secrets management 
+There is no robust secrets management. The setup relies on environment variables to contain secrets which poses a number of potential issues. An improvement would be to use ansible-vault or Hasicorp Vault
+
+### DNS 
+DNS information to lambdas is shared as part of the Ansible deployment scripts, however this poses some issues. 
+Firstly, it prevents a separation of 
+
+### Authentication / ACL
+Both API and web packages are open to the web, without any authentication. 
+Depending on requirements, this could be as simple as token authentication on the API and HTTP auth

@@ -1,13 +1,30 @@
 ---
 - name: Create an empty bucket
   aws_s3:
-    bucket: "{{ cs_url }}"
+    bucket: "{{ cs_cf_subdomain }}.{{ cs_cf_zone }}"
     mode: create
     permission: public-read
 
+- name: Cloudformation Stack
+  cloudformation_facts: 
+    stack_name: "api-prod"
+    region: "{{ cs_aws_region }}"
+    stack_resources: true
+  register: cloudformation_facts_results
+
+- name: Capture Stack details
+  set_fact:
+    stack_resources: "{{ cloudformation_facts_results.ansible_facts.cloudformation[service_name + '-prod'].stack_resources }}"
+
+- name: Update endpoint
+  lineinfile:
+    path: /tmp/app/web/app.js
+    regexp: '^const endpoint'
+    line: "const endpoint = 'https://{{ stack_resources.ApiGatewayRestApi }}.execute-api.{{ cs_aws_region }}.amazonaws.com';"
+
 - name: Upload files to bucket
   aws_s3:
-    bucket: "{{ cs_url }}"
+    bucket: "{{ cs_cf_subdomain }}.{{ cs_cf_zone }}"
     region: "{{ cs_aws_region }}"
     src: "{{ item.src }}"
     object: "{{ item.path }}"
@@ -19,6 +36,17 @@
 
 - name: Create S3 website
   s3_website:
-    name: "{{ cs_url }}"
+    name: "{{ cs_cf_subdomain }}.{{ cs_cf_zone }}"
     region: "{{ cs_aws_region }}"
+    state: present
+
+- name: Create a DNS entry for Lambda
+  cloudflare_dns:
+    account_email: "{{ cs_cloudflare_email }}"
+    account_api_token: "{{ cs_cloudflare_token }}"
+    zone: "{{ cs_cf_zone }}"
+    record: "{{ cs_cf_subdomain }}"
+    type: CNAME
+    proxied: "yes"
+    value: "{{ cs_cf_subdomain }}.{{ cs_cf_zone }}.s3-website-{{ cs_aws_region }}.amazonaws.com"
     state: present
