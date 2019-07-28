@@ -14,8 +14,15 @@ CLOUDFLARE_EMAIL=<CLOUDFLARE_EMAIL> \
 MYSQL_PASSWORD=<MYSQL_PASSWORD> \
 bin/ansible
 ```
-
 Can be viewed at `https://carsales.kenney.co`
+
+
+## Structure
+
+The repository is broken into three top-level folders:
+- ansible: contains Ansible playbook and associated configuration to deploy app
+- app: main application code, consisting of two Lambdas (cron & api), and static web (web)
+- bin: helper scripts, as well as self-contained Dockerfile to deploy
 
 ## Task
 * create a simple application (it can be lambda based or other) that will query all the records in Route53, save the info in a simple database and display the results on a very simple front-end.
@@ -25,8 +32,6 @@ Can be viewed at `https://carsales.kenney.co`
 * A simple front-end is all that’s needed, as it’s only an internal application.
 * The front end needs to read the data from the persistent storage and not from the “data-fetching” lambda directly. 
 * No need to worry about authentication on the front-end (but it would be great to explain how you would implement it if you had to).
-
-
 
 ## To Do
 
@@ -86,3 +91,6 @@ Firstly, it prevents a separation of
 ### Authentication / ACL
 Both API and web packages are open to the web, without any authentication. 
 Depending on requirements, this could be as simple as token authentication on the API and HTTP auth
+
+### VPC encapsulation
+RDS instance is within a VPC, however it is publicly accessible. This was a trade-off in terms of this exercise to allow easier remote provisioning (outside of VPC). Additionally, Lambdas are not deployed within the VPC

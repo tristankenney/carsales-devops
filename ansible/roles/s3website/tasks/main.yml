@@ -2,6 +2,7 @@
 - name: Create an empty bucket
   aws_s3:
     bucket: "{{ cs_cf_subdomain }}.{{ cs_cf_zone }}"
+    region: "{{ cs_aws_region }}"
     mode: create
     permission: public-read
 

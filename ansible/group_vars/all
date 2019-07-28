@@ -12,5 +12,7 @@ cs_cf_subdomain: carsales
 cs_cloudflare_email: "{{ lookup('env', 'CLOUDFLARE_EMAIL') }}"
 cs_cloudflare_token: "{{ lookup('env', 'CLOUDFLARE_TOKEN') }}"
 cs_subnet_conf:
-  az: a
-  cidr: 10.10.0.0/24
+  - az: a
+    cidr: 10.10.0.0/24
+  - az: b
+    cidr: 10.10.1.0/24

@@ -23,12 +23,12 @@
     state: present
     region: "{{ cs_aws_region }}"
     vpc_id: "{{ cs_vpc.id }}"
-    az: "{{ cs_aws_region }}{{ cs_subnet_conf['az'] }}"
-    cidr: "{{ cs_subnet_conf['cidr'] }}"
+    az: "{{ cs_aws_region }}{{ item['az'] }}"
+    cidr: "{{ item['cidr'] }}"
     tags:
-      Name: "{{ cs_app_name }}_subnet_az{{ cs_subnet_conf['az'] }}"
+      Name: "{{ cs_app_name }}_subnet_az{{ item['az'] }}"
       Group: "{{ cs_app_name }}_public"
-
+  loop: "{{ cs_subnet_conf }}"
 - name: Lookup Subnet
   ec2_vpc_subnet_facts:
     region: "{{ cs_aws_region }}"
@@ -38,4 +38,5 @@
 
 - name: Capture Subnet
   set_fact:
-    cs_subnet: "{{ ec2_vpc_subnet_facts.subnets[0] }}"
+    cs_subnet_a: "{{ ec2_vpc_subnet_facts.subnets[0] }}"
+    cs_subnet_b: "{{ ec2_vpc_subnet_facts.subnets[1] }}"

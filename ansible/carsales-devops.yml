@@ -11,7 +11,6 @@
   connection: local
   roles: 
     - role: database
-    - role: s3website
     - role: serverless 
       vars:
         service_name: cron
@@ -21,7 +20,7 @@
             "route53_mysql_password": "{{ cs_mysql_password }}"
             "route53_mysql_db_name": "{{ cs_db_name }}"
         security_group: "{{ cs_sg_cron }}"
-        subnet: "{{ cs_subnet }}"
+        subnet: "{{ cs_subnet_a }}"
         role: "{{ cs_app_name}}_cron_iam_role"
     - role: serverless 
       vars:
@@ -32,5 +31,6 @@
             "route53_mysql_password": "{{ cs_mysql_password }}"
             "route53_mysql_db_name": "{{ cs_db_name }}"
         security_group: "{{ cs_sg_api }}"
-        subnet: "{{ cs_subnet }}"
+        subnet: "{{ cs_subnet_a }}"
         role: "{{ cs_app_name}}_api_iam_role"
+    - role: s3website

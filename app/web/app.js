@@ -1,6 +1,6 @@
 'use strict';
 
-const endpoint = 'https://yuddsc8qj8.execute-api.us-east-1.amazonaws.com';
+const endpoint = 'https://k0o2ghnq7d.execute-api.ap-southeast-2.amazonaws.com';
 
 async function renderRoutes() {
     const response = await fetch(endpoint + '/prod/route');

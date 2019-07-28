@@ -6,7 +6,8 @@
     tags:
       Name: "{{ cs_app_name }}_public_rt"
     subnets: 
-      - "{{ cs_subnet.subnet_id }}"
+      - "{{ cs_subnet_a.subnet_id }}"
+      - "{{ cs_subnet_b.subnet_id }}"
     routes:
       - dest: "{{ cs_vpc_cidr_start }}/16"
         gateway_id: "local"
