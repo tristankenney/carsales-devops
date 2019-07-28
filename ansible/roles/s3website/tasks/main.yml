@@ -1,0 +1,24 @@
+---
+- name: Create an empty bucket
+  aws_s3:
+    bucket: "{{ cs_url }}"
+    mode: create
+    permission: public-read
+
+- name: Upload files to bucket
+  aws_s3:
+    bucket: "{{ cs_url }}"
+    region: "{{ cs_aws_region }}"
+    src: "{{ item.src }}"
+    object: "{{ item.path }}"
+    permission: 
+      - public-read
+    mode: put
+    overwrite: "yes"
+  with_filetree: /tmp/app/web/
+
+- name: Create S3 website
+  s3_website:
+    name: "{{ cs_url }}"
+    region: "{{ cs_aws_region }}"
+    state: present

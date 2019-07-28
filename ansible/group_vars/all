@@ -7,6 +7,7 @@ cs_database_role: route53
 cs_app_name: cs_devops_test
 cs_vpc_cidr: 10.10.0.0/16
 cs_vpc_cidr_start: 10.10.0.0
+cs_url: carsales.kenney.co
 cs_subnet_conf:
   az: a
   cidr: 10.10.0.0/24

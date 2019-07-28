@@ -3,12 +3,6 @@ service: api
 provider:
   name: aws
   runtime: nodejs8.10
-  iamRoleStatements:  
-      - Effect: Allow
-        Action:  
-          - route53:Get*
-          - route53:List*
-          - route53:TestDNSAnswer
 functions:
   fn:
     handler: handler.run

@@ -15,6 +15,7 @@
   hosts: tag_Role_route53
   connection: local
   roles: 
+    - role: s3website
     - role: serverless 
       vars:
         service_name: cron
